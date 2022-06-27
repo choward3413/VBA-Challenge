@@ -54,7 +54,7 @@ Range("m1") = "Total Volume"
  'lastRow = Cells(Rows.Count, 1).End(xlUp).Row
  
  
-        'MsgBox (sheetname)
+        MsgBox (sheetname)
  
   
  ' Find the last row of all(sheets
@@ -78,7 +78,8 @@ Range("m1") = "Total Volume"
      
      'calculate year change
      yearlyChange = LastClose - FirstOpen
-     Cells(summaryTableRow, 11).Value = yearlyChange
+     sheet.Cells(summaryTableRow, 11).Value = yearlyChange
+     sheet.Cells(summaryTableRow, 11).NumberFormat = "$0.00"
      
      'calculate percent change
      PercentChange = yearlyChange / FirstOpen
@@ -87,28 +88,27 @@ Range("m1") = "Total Volume"
      'Cells(summaryTableRow, 15).Value = FirstOpen
      'Cells(summaryTableRow, 16).Value = LastClose
      
-     Cells(summaryTableRow, 12).Value = PercentChange
+     sheet.Cells(summaryTableRow, 12).Value = PercentChange
         'Cells(summaryTableRow, 12).Style = "percent"
         ' trying a differnt approach for percent to add 2 decimal places
-     Cells(summaryTableRow, 12).NumberFormat = "0.00%"
+     sheet.Cells(summaryTableRow, 12).NumberFormat = "0.00%"
     
      'add last volume from row to totalStkVol
      totalStockVol = totalStockVol + sheet.Cells(Row, 7).Value
      
      'add ticker to col j
-     Cells(summaryTableRow, 10).Value = ticker
+     sheet.Cells(summaryTableRow, 10).Value = ticker
      
      
        'add total charges to col h
-     Cells(summaryTableRow, 13).Value = totalStockVol
+     sheet.Cells(summaryTableRow, 13).Value = totalStockVol
          
         'reset the brand total to zero
     totalStockVol = 0
           
     'go to next summary table row
-    summaryTableRow = summaryTableRow + 1
-    
-    
+   summaryTableRow = summaryTableRow + 1
+        
      FirstOpen = sheet.Cells(Row + 1, 3).Value
      
   
@@ -148,22 +148,16 @@ Range("m1") = "Total Volume"
        Dim GreatestTotVol As Double
        
        
-       If Cells(Row, 11) > GreatestIncrease Then
+       If Cells(Row, 12) > GreatestIncrease Then
        
-       GreatestIncrease = Cells(Row, 11)
+       GreatestIncrease = Cells(Row, 12)
        TickerB_inc = Cells(Row, 10)
-    
-       'ElseIf sheet.Cells(Row, 11) < GreatestDecrease Then
-       
-       'GreatestDecrease = sheet.Cells(Row, 11)
-       'TickerB_dec = sheet.Cells(Row, 10)
-                     
        
        End If
        
-        If Cells(Row, 11) < GreatestDecrease Then
+        If Cells(Row, 12) < GreatestDecrease Then
        
-       GreatestDecrease = Cells(Row, 11)
+       GreatestDecrease = Cells(Row, 12)
        TickerB_dec = Cells(Row, 10)
                      
        Else
@@ -182,18 +176,20 @@ Range("o2:p2").Merge
 Range("o3:p3").Merge
 Range("o4:p4").Merge
 
-Range("o2") = "Gretest % Increase"
-Range("o3") = "Gretest % Decrease"
-Range("o4") = "Greatest Total Volume"
-Range("q1") = "Ticker"
-Range("r1") = "Value"
+sheet.Cells(2, 15).Value = "Gretest % Increase"
+sheet.Cells(3, 15).Value = "Gretest % Decrease"
+sheet.Cells(4, 15).Value = "Greatest Total Volume"
+sheet.Cells(1, 17) = "Ticker"
+sheet.Cells(1, 18) = "Value"
 
-Range("R2").Value = GreatestIncrease
-Range("R3").Value = GreatestDecrease
-Range("R4").Value = GreatestTotVol
-Range("Q2").Value = TickerB_inc
-Range("Q3").Value = TickerB_dec
-Range("Q4").Value = TickerB__vol
+sheet.Cells(2, 18).Value = GreatestIncrease
+sheet.Cells(2, 18).NumberFormat = "0.00%"
+sheet.Cells(3, 18).Value = GreatestDecrease
+sheet.Cells(3, 18).NumberFormat = "0.00%"
+sheet.Cells(4, 18).Value = GreatestTotVol
+sheet.Cells(2, 17).Value = TickerB_inc
+sheet.Cells(3, 17).Value = TickerB_dec
+sheet.Cells(4, 17).Value = TickerB__vol
 
 
  
